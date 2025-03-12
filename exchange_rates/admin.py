@@ -3,12 +3,21 @@ from django.shortcuts import render
 from django.urls import path
 
 from .forms import ConverterForm
-from .lib.converter import converter
+from .libs.converter import converter
 from .models import CurrencyExchangeRate
 
 
 # Register your models here.
 class CurrencyExchangeRateAdmin(admin.ModelAdmin):
+    """
+    Admin interface configuration for the CurrencyExchangeRate model.
+
+    Attributes:
+        model (Model): The CurrencyExchangeRate model being managed.
+        list_display (tuple): Fields to display in the admin list view.
+
+    Provides a custom admin view for currency conversion accessible via a 'converter/' URL.
+    """
 
     model = CurrencyExchangeRate
     list_display = (
@@ -18,6 +27,13 @@ class CurrencyExchangeRateAdmin(admin.ModelAdmin):
         'rate_value')
 
     def get_urls(self):
+        """
+        Extend the default admin URLs with a custom URL for the currency converter view.
+
+        Returns:
+            list: A list of URL patterns, including the custom 'converter/' path prepended to the default URLs.
+
+        """
         urls = super().get_urls()
         custom_urls = [
             path('converter/', self.admin_site.admin_view(self.converter_view),
@@ -26,6 +42,17 @@ class CurrencyExchangeRateAdmin(admin.ModelAdmin):
         return custom_urls + urls
 
     def converter_view(self, request):
+        """
+        Handle the currency converter admin view, rendering a form and processing conversion requests.
+
+        Args:
+            request (HttpRequest): The HTTP request object containing method and POST data (if any).
+
+        Returns:
+            HttpResponse: Renders one of two templates:
+                - 'admin/converter_form.html': Displays the form for GET requests or invalid POST submissions.
+                - 'admin/converter.html': Displays the conversion result for valid POST submissions.
+        """
         if request.method == "POST":
             form = ConverterForm(request.POST)
             if form.is_valid():

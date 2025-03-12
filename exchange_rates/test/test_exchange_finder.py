@@ -7,7 +7,7 @@ from django.test import TestCase
 from currencies.models import Currency
 from providers.models import Credentials
 from currencies.signals import post_save_currency
-from exchange_rates.lib.exchange_finder import ExchangeFinder  # Adjust import
+from exchange_rates.libs.exchange_finder import ExchangeFinder  # Adjust import
 from exchange_rates.models import CurrencyExchangeRate
 
 
@@ -84,7 +84,7 @@ class ExchangeFinderTests(TestCase):
         }
         self.assertEqual(result, expected)
 
-    @patch('exchange_rates.lib.exchange_finder.populate')
+    @patch('exchange_rates.libs.exchange_finder.populate')
     def test_get_currency_rates_list_missing_data(self, mock_populate):
         # Test get_currency_rates_list when data is missing and populate is called
         # Add a date with no data

@@ -4,7 +4,7 @@ from unittest.mock import patch, Mock
 from django.test import TestCase
 
 from currencies.models import Currency
-from exchange_rates.lib.populate import populate  # Adjust import based on your structure
+from exchange_rates.libs.populate import populate  # Adjust import based on your structure
 from exchange_rates.models import CurrencyExchangeRate
 
 
@@ -17,7 +17,7 @@ class PopulateFunctionTests(TestCase):
         self.start_date = '2025-01-01'
         self.today = datetime.today().strftime('%Y-%m-%d')
 
-    @patch('exchange_rates.lib.populate.CreateProvider')
+    @patch('exchange_rates.libs.populate.CreateProvider')
     def test_populate_successful_creation_with_end_date(self, mock_create_provider):
         # Test successful population with explicit end_date
         mock_provider_instance = Mock()
@@ -39,7 +39,7 @@ class PopulateFunctionTests(TestCase):
         self.assertEqual(float(rate_gbp_02.rate_value), 0.81)
         mock_provider_instance.get_timeseries_rates.assert_called_once_with('USD', self.start_date, '2025-01-02')
 
-    @patch('exchange_rates.lib.populate.CreateProvider')
+    @patch('exchange_rates.libs.populate.CreateProvider')
     def test_populate_successful_creation_default_end_date(self, mock_create_provider):
         # Test successful population with default end_date (today)
         mock_provider_instance = Mock()
@@ -57,7 +57,7 @@ class PopulateFunctionTests(TestCase):
         self.assertEqual(float(rate_eur_01.rate_value), 0.93)
         mock_provider_instance.get_timeseries_rates.assert_called_once_with('USD', self.start_date, self.today)
 
-    @patch('exchange_rates.lib.populate.CreateProvider')
+    @patch('exchange_rates.libs.populate.CreateProvider')
     def test_populate_existing_records(self, mock_create_provider):
         # Test that existing records are not duplicated
         CurrencyExchangeRate.objects.create(
@@ -83,7 +83,7 @@ class PopulateFunctionTests(TestCase):
         self.assertEqual(
             CurrencyExchangeRate.objects.filter(source_currency=self.usd, exchanged_currency=self.eur).count(), 1)
 
-    @patch('exchange_rates.lib.populate.CreateProvider')
+    @patch('exchange_rates.libs.populate.CreateProvider')
     def test_populate_missing_currency(self, mock_create_provider):
         # Test behavior when a target currency code from provider doesn't exist
         mock_provider_instance = Mock()
@@ -97,7 +97,7 @@ class PopulateFunctionTests(TestCase):
         self.assertIn('Currency matching query does not exist', str(context.exception))
         self.assertEqual(CurrencyExchangeRate.objects.count(), 0)  # No records created
 
-    @patch('exchange_rates.lib.populate.CreateProvider')
+    @patch('exchange_rates.libs.populate.CreateProvider')
     def test_populate_empty_result(self, mock_create_provider):
         # Test behavior when provider returns an empty result
         mock_provider_instance = Mock()
@@ -109,7 +109,7 @@ class PopulateFunctionTests(TestCase):
         self.assertEqual(CurrencyExchangeRate.objects.count(), 0)  # No records should be created
         mock_provider_instance.get_timeseries_rates.assert_called_once_with('USD', self.start_date, '2025-01-01')
 
-    @patch('exchange_rates.lib.populate.CreateProvider')
+    @patch('exchange_rates.libs.populate.CreateProvider')
     def test_populate_invalid_source_currency(self, mock_create_provider):
         # Test behavior when source currency doesn't exist
         mock_provider_instance = Mock()

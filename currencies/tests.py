@@ -9,7 +9,6 @@ from currencies.models import Currency
 
 class CurrencyViewSetTests(APITestCase):
     def setUp(self):
-        # Set up client and authenticated user
         self.client = APIClient()
         self.user = User.objects.create_user(username='testuser', password='testpass')
         self.client.login(username='testuser', password='testpass')
@@ -31,7 +30,7 @@ class CurrencyViewSetTests(APITestCase):
         # Test that an authenticated user can list currencies
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)  # Should return the 2 created currencies
+        self.assertEqual(len(response.data), 2)
 
     def test_retrieve_currency_authenticated(self):
         # Test that an authenticated user can retrieve a specific currency
@@ -45,7 +44,7 @@ class CurrencyViewSetTests(APITestCase):
         data = {'code': 'GBP', 'name': 'Libra', 'symbol': 'BP'}
         response = self.client.post(self.list_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Currency.objects.count(), 3)  # Now there are 3 currencies
+        self.assertEqual(Currency.objects.count(), 3)
         self.assertEqual(Currency.objects.get(code='GBP').name, 'Libra')
 
     def test_update_currency_authenticated(self):
@@ -60,7 +59,7 @@ class CurrencyViewSetTests(APITestCase):
         # Test that an authenticated user can delete a currency
         response = self.client.delete(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Currency.objects.count(), 1)  # Only 1 currency remains
+        self.assertEqual(Currency.objects.count(), 1)
         self.assertFalse(Currency.objects.filter(code='USD').exists())
 
     def test_retrieve_nonexistent_currency(self):
@@ -68,10 +67,3 @@ class CurrencyViewSetTests(APITestCase):
         nonexistent_url = reverse('currency-detail', kwargs={'code': 'XXX'})
         response = self.client.get(nonexistent_url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
-    def tearDown(self):
-        post_save.connect(post_save_currency, sender=Currency)
-        # Clean up after tests
-        self.client.logout()
-        Currency.objects.all().delete()
-        User.objects.all().delete()

@@ -19,8 +19,10 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('valuation_date', models.DateField(db_index=True)),
                 ('rate_value', models.DecimalField(db_index=True, decimal_places=6, max_digits=18)),
-                ('exchanged_currency', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='currencies.currency')),
-                ('source_currency', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='exchanges', to='currencies.currency')),
+                ('exchanged_currency', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                                         to='currencies.currency')),
+                ('source_currency', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                                      related_name='exchanges', to='currencies.currency')),
             ],
         ),
     ]

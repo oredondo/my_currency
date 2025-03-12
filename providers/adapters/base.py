@@ -7,6 +7,20 @@ from currencies.models import Currency
 def pre_get_timeseries(source_currency,
                        start_date,
                        end_date):
+    """
+    Validate and preprocess inputs for fetching time series exchange rate data.
+
+    Args:
+        source_currency (str): The currency code of the source currency (e.g., 'USD').
+        start_date (str): The start date in 'YYYY-MM-DD' format.
+        end_date (str): The end date in 'YYYY-MM-DD' format.
+
+    Returns:
+        tuple: A tuple containing:
+            - start (datetime): The parsed start date.
+            - end (datetime): The parsed end date.
+            - exchanged_currency (str): A comma-separated string of all currency codes excluding the source currency.
+    """
     try:
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
@@ -23,6 +37,11 @@ def pre_get_timeseries(source_currency,
 
 
 class ExchangeRateProvider(ABC):
+    """
+    Abstract base class defining the interface for exchange rate data providers.
+
+    Subclasses must implement methods to fetch exchange rate data for specific dates or time series.
+    """
     @abstractmethod
     def __init__(self):
         pass

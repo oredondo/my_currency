@@ -6,16 +6,17 @@ from .base import ExchangeRateProvider, pre_get_timeseries
 
 
 class MockProvider(ExchangeRateProvider, ABC):
-    # This class inherits from MockProvider, implying it’s a concrete implementation
-    # of an exchange rate provider. MockProvider likely defines an interface or
-    # abstract methods that this class must implement.
-
+    """
+        Mock implementation of ExchangeRateProvider for testing purposes.
+        Generates random exchange rates instead of fetching from an API.
+    """
     def __init__(self, token=None, url=None):
         """
-        Initializes the adapter with an authentication token and a base URL for the API.
+        Initialize the mock provider. Token and URL are optional as this is a mock.
 
-        :param token: str - The authorization token (API key) for CurrencyBeacon.
-        :param url: str - The base URL of the API (e.g., "https://api.currencybeacon.com").
+        Args:
+            token: Optional API token (not used in mock)
+            url: Optional API URL (not used in mock)
         """
 
         super().__init__()
@@ -26,6 +27,16 @@ class MockProvider(ExchangeRateProvider, ABC):
         pass
 
     def _date_range(self, start_date, end_date):
+        """
+        Generate a list of dates between start and end dates.
+
+        Args:
+            start_date: Starting datetime object
+            end_date: Ending datetime object
+
+        Returns:
+            Tuple containing list of dates and normalized start_date
+        """
         start_date = start_date.date()
         end_date = end_date.date()
         dates = []
@@ -36,6 +47,15 @@ class MockProvider(ExchangeRateProvider, ABC):
         return dates, start_date
 
     def generate_random_rate(self, base_rate):
+        """
+        Generate a random exchange rate with small variation from base rate.
+
+        Args:
+            base_rate: Base rate to vary from
+
+        Returns:
+            Random rate rounded to 4 decimal places
+        """
         variation = random.uniform(-0.05, 0.05)
         return round(base_rate * (1 + variation), 4)
 
@@ -43,6 +63,17 @@ class MockProvider(ExchangeRateProvider, ABC):
                              source_currency,
                              start_date,
                              end_date):
+        """
+        Generate mock time series exchange rates for given date range.
+
+        Args:
+            source_currency: Base currency code
+            start_date: Start date in YYYY-MM-DD format
+            end_date: End date in YYYY-MM-DD format
+
+        Returns:
+            Dictionary with date strings as keys and currency-rate pairs as values
+        """
 
         start, end, exchanged_currency = pre_get_timeseries(source_currency, start_date, end_date)
 

@@ -1,10 +1,13 @@
 from datetime import datetime
-from django.test import TestCase
 from unittest.mock import patch, Mock
-from currencies.models import Currency
-from providers.models import Credentials
-from providers.adapters.create_provider import CreateProvider  # Adjust import based on your structure
+
 import requests
+from django.test import TestCase
+
+from currencies.models import Currency
+from providers.adapters.create_provider import CreateProvider  # Adjust import based on your structure
+from providers.models import Credentials
+
 
 class CreateProviderTests(TestCase):
     def setUp(self):
@@ -22,8 +25,8 @@ class CreateProviderTests(TestCase):
         )
         self.mock = Credentials.objects.create(
             name='Mock',
-            token=None,
-            url=None,
+            token='XXXX',
+            url='www.mock.com',
             priority=2,
             enabled=True
         )
@@ -56,8 +59,8 @@ class CreateProviderTests(TestCase):
         result = provider_creator.create()
 
         self.assertEqual(result, mock_mock_instance)
-        self.assertEqual(Credentials.objects.get(name='CurrencyBeacon').priority, 2)  # Priority changed
-        self.assertEqual(Credentials.objects.get(name='Mock').priority, 0)  # Mock now highest
+        self.assertEqual(Credentials.objects.get(name='CurrencyBeacon').priority, 3)  # Priority changed
+        self.assertEqual(Credentials.objects.get(name='Mock').priority, 1)  # Mock now highest
         mock_mock_provider.assert_called_once()
 
     @patch('providers.adapters.create_provider.CurrencyBeaconAdapter')
@@ -112,7 +115,7 @@ class CreateProviderTests(TestCase):
         # Test priority reassignment when CurrencyBeacon fails
         mock_beacon_adapter.side_effect = requests.RequestException("API down")
         # Add a third provider to test priority shuffling
-        Credentials.objects.create(name='Backup', token=None, url=None, priority=3, enabled=True)
+        Credentials.objects.create(name='Backup', token='asdasd', url='www.bak.com', priority=3, enabled=True)
 
         provider_creator = CreateProvider()
         result = provider_creator.create()
@@ -121,9 +124,9 @@ class CreateProviderTests(TestCase):
         beacon = Credentials.objects.get(name='CurrencyBeacon')
         mock = Credentials.objects.get(name='Mock')
         backup = Credentials.objects.get(name='Backup')
-        self.assertEqual(beacon.priority, 3)  # Moved to lowest priority
-        self.assertEqual(mock.priority, 0)    # Highest priority now
-        self.assertEqual(backup.priority, 1)  # Shifted up
+        self.assertEqual(beacon.priority, 4)  # Moved to lowest priority
+        self.assertEqual(mock.priority, 1)  # Highest priority now
+        self.assertEqual(backup.priority, 2)  # Shifted up
         self.assertIn('CurrencyBeacon', provider_creator.providers_list)
 
     def tearDown(self):

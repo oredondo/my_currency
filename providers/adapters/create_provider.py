@@ -9,12 +9,23 @@ from ..models import Credentials
 
 
 class CreateProvider(object):
+    """
+    Factory class to create and manage currency provider instances.
+    Follows the Factory pattern to instantiate appropriate provider adapters.
+    """
 
     def __init__(self):
         self.today = datetime.today().strftime('%Y-%m-%d')
         self.providers_list = []
 
     def create(self):
+        """
+        Creates and returns a provider instance based on available credentials.
+        Check if the provider works if not change the priority.
+
+        Returns:
+            Provider instance if successful, None otherwise
+        """
 
         for provider in Credentials.objects.filter(enabled=True).order_by('priority'):
             if provider.name == 'CurrencyBeacon':
@@ -37,6 +48,15 @@ class CreateProvider(object):
         raise ValueError("There is no Provider, please speak to the administrator")
 
     def _change_priority(self, provider):
+        """
+        Adjusts provider priorities and attempts to create a new provider.
+
+        Args:
+            provider: Credentials instance to modify
+
+        Returns:
+            Provider instance if successful, None otherwise
+        """
         if provider.name in self.providers_list:
             raise ValueError("There is no Provider, please speak to the administrator")
 

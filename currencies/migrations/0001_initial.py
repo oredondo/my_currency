@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
             name='Currency',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(choices=[('EUR', 'EUR'), ('CHF', 'CHF'), ('USD', 'USD'), ('GBP', 'GBP')], max_length=3, unique=True)),
+                ('code', models.CharField(choices=[('EUR', 'EUR'), ('CHF', 'CHF'), ('USD', 'USD'), ('GBP', 'GBP')],
+                                          max_length=3, unique=True)),
                 ('name', models.CharField(db_index=True, max_length=20)),
                 ('symbol', models.CharField(max_length=10)),
             ],

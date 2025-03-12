@@ -6,16 +6,19 @@ from .base import ExchangeRateProvider, pre_get_timeseries
 
 
 class CurrencyBeaconAdapter(ExchangeRateProvider, ABC):
-    # This class inherits from ExchangeRateProvider, implying it’s a concrete implementation
-    # of an exchange rate provider. ExchangeRateProvider likely defines an interface or
-    # abstract methods that this class must implement.
+    """
+    Adapter class for CurrencyBeacon API implementing the ExchangeRateProvider interface.
+    Handles exchange rate retrieval for specific dates and time series.
 
+    """
     def __init__(self, token, url):
         """
-        Initializes the adapter with an authentication token and a base URL for the API.
+        Initialize the CurrencyBeacon adapter with API credentials.
 
-        :param token: str - The authorization token (API key) for CurrencyBeacon.
-        :param url: str - The base URL of the API (e.g., "https://api.currencybeacon.com").
+        Args:
+            token: API authentication token
+            url: Base URL for CurrencyBeacon API endpoint
+
         """
 
         super().__init__()
@@ -24,12 +27,16 @@ class CurrencyBeaconAdapter(ExchangeRateProvider, ABC):
 
     def get_exchange_rate_data(self, source_currency, exchanged_currency, valuation_date):
         """
-        Retrieves the historical exchange rate between two currencies for a specific date.
+        Fetch historical exchange rate for a specific date.
 
-        :param source_currency: str - The source currency (e.g., "USD").
-        :param exchanged_currency: str - The target currency (e.g., "EUR").
-        :param valuation_date: str - The date for the exchange rate (likely in YYYY-MM-DD format).
-        :return: float - The exchange rate for the target currency.
+        Args:
+            source_currency: Base currency code (e.g., "USD")
+            exchanged_currency: Target currency code (e.g., "EUR")
+            valuation_date: Date in YYYY-MM-DD format
+
+        Returns:
+            Exchange rate as a float
+
         """
 
         url = (f"{self.url}"
@@ -43,6 +50,18 @@ class CurrencyBeaconAdapter(ExchangeRateProvider, ABC):
                              source_currency,
                              start_date,
                              end_date):
+        """
+        Fetch exchange rate time series between two dates.
+
+        Args:
+            source_currency: Base currency code
+            start_date: Start date in YYYY-MM-DD format
+            end_date: End date in YYYY-MM-DD format
+
+        Returns:
+            Dictionary of date-rate pairs
+
+        """
         start, end, exchanged_currency = pre_get_timeseries(source_currency,
                                                             start_date,
                                                             end_date)
