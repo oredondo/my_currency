@@ -1,5 +1,5 @@
 from django.db import models
-from concurrencies.models import Currency
+from currencies.models import Currency
 
 
 # Create your models here.

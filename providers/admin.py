@@ -10,7 +10,8 @@ class CredentialsAdmin(admin.ModelAdmin):
         'name',
         'url',
         'token',
-        'priority')
+        'priority',
+        'enabled')
 
 
 admin.site.register(Credentials, CredentialsAdmin)
