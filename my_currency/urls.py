@@ -15,8 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path, include
+from exchange_rates.urls import urlpatterns_exchange
+from rest_framework.routers import DefaultRouter
+from currencies.views import CurrencyViewSet
+
+router = DefaultRouter()
+router.register(r'currencies', CurrencyViewSet, basename='currency')  # 'currency' genera 'currency-detail'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/v1/', include(router.urls)),
+    re_path(r'^api/v1/', include((urlpatterns_exchange, 'v1'), namespace='v1')),
+
 ]

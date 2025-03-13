@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "6c98498e-d5b7-4f4e-8c69-c29e0de67488",
+		"name": "currency",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1073513"
+	},
+	"item": [
+		{
+			"name": "concurrency_rate_list",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "temporal",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/concurrency_rate_list/?source_currency=EUR&date_from=2020-03-10&date_to=2020-03-10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"concurrency_rate_list",
+						""
+					],
+					"query": [
+						{
+							"key": "source_currency",
+							"value": "EUR"
+						},
+						{
+							"key": "date_from",
+							"value": "2020-03-10"
+						},
+						{
+							"key": "date_to",
+							"value": "2020-03-10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "concurrency_list",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "temporal",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/currencies/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"currencies",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "converter",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "test",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "temporal",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/convert_amount/?source_currency=EUR&exchanged_currency=USD&amount=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"convert_amount",
+						""
+					],
+					"query": [
+						{
+							"key": "source_currency",
+							"value": "EUR"
+						},
+						{
+							"key": "exchanged_currency",
+							"value": "USD"
+						},
+						{
+							"key": "amount",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
