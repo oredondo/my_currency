@@ -103,4 +103,3 @@ class TestMockProvider(TestCase):
                 # Verify the currency is included with a valid rate
                 self.assertIn("USD", result["2023-01-01"])
                 self.assertTrue(0.95 <= result["2023-01-01"]["USD"] <= 1.05)
-

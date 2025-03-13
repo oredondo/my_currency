@@ -32,7 +32,7 @@ def pre_get_timeseries(source_currency,
         exchanged_currency = ",".join(Currency.objects.exclude(code=source_currency.upper()
                                                                ).values_list('code', flat=True))
     except Currency.DoesNotExist:
-        raise Currency.DoesNotExist(f"Currency codes does not exist, you need to add")
+        raise Currency.DoesNotExist("Currency codes does not exist, you need to add")
     return start, end, exchanged_currency
 
 
@@ -42,6 +42,7 @@ class ExchangeRateProvider(ABC):
 
     Subclasses must implement methods to fetch exchange rate data for specific dates or time series.
     """
+
     @abstractmethod
     def __init__(self):
         pass

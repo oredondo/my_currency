@@ -1,11 +1,13 @@
+from unittest.mock import patch
+
+from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
-from django.contrib.auth.models import User
-from unittest.mock import patch
-from providers.models import Credentials
+
 from currencies.models import Currency
-from exchange_rates.views import ExchangeRateListView, ConverterView  # Adjust import based on your structure
+from providers.models import Credentials
+
 
 class ExchangeRateListViewTests(APITestCase):
     def setUp(self):

@@ -1,9 +1,9 @@
-
-
-from django.dispatch import receiver
 from django.db.models.signals import post_save
-from .models import Currency
+from django.dispatch import receiver
+
 from exchange_rates.libs.populate import async_populate_all
+from .models import Currency
+
 
 @receiver(post_save, sender=Currency)
 def post_save_currency(sender, instance, created, **kwargs):

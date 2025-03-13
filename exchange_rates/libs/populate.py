@@ -1,3 +1,4 @@
+import sys
 import threading
 from datetime import datetime, timedelta
 
@@ -37,11 +38,12 @@ def async_populate_all():
     """
     Asynchronously update exchange rates for all currencies in the database.
     """
-    for item in Currency.objects.values_list('code', flat=True):
-        date = CurrencyExchangeRate.objects.filter(source_currency=Currency.objects.get(code=item)).values_list(
-            'valuation_date', flat=True).order_by('-valuation_date').first()
-        if not date:
-            date = datetime.now() - timedelta(days=365)
-        if date.strftime("%Y-%m-%d") != datetime.now().strftime("%Y-%m-%d"):
-            thread = threading.Thread(target=populate, args=(item, date.strftime("%Y-%m-%d")))
-            thread.start()
+    if 'test' not in sys.argv:
+        for item in Currency.objects.values_list('code', flat=True):
+            date = CurrencyExchangeRate.objects.filter(source_currency=Currency.objects.get(code=item)).values_list(
+                'valuation_date', flat=True).order_by('-valuation_date').first()
+            if not date:
+                date = datetime.now() - timedelta(days=365)
+            if date.strftime("%Y-%m-%d") != datetime.now().strftime("%Y-%m-%d"):
+                thread = threading.Thread(target=populate, args=(item, date.strftime("%Y-%m-%d")))
+                thread.start()

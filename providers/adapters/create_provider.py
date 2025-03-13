@@ -3,9 +3,9 @@ from datetime import datetime
 import requests
 
 from currencies.models import Currency
+from providers.models import Credentials
 from .currency_beacon import CurrencyBeaconAdapter
 from .mock_provider import MockProvider
-from ..models import Credentials
 
 
 class CreateProvider(object):
@@ -33,7 +33,8 @@ class CreateProvider(object):
                     prov = CurrencyBeaconAdapter(token=provider.token,
                                                  url=provider.url)
                     currency = Currency.objects.all().first()
-                    prov.get_timeseries_rates(source_currency=currency.code, start_date=self.today, end_date=self.today)
+                    prov.get_timeseries_rates(source_currency=currency.code, start_date=self.today,
+                                              end_date=self.today)
                     return prov
                 except requests.RequestException:
                     return self._change_priority(provider)
