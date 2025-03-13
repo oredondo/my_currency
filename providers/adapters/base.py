@@ -11,7 +11,7 @@ def pre_get_timeseries(source_currency,
     Validate and preprocess inputs for fetching time series exchange rate data.
 
     Args:
-        source_currency (str): The currency code of the source currency (e.g., 'USD').
+        source_currency (str): The currency code of the source currency ('USD').
         start_date (str): The start date in 'YYYY-MM-DD' format.
         end_date (str): The end date in 'YYYY-MM-DD' format.
 

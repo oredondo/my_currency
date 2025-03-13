@@ -87,10 +87,8 @@ class ExchangeFinderTests(TestCase):
     @patch('exchange_rates.libs.exchange_finder.populate')
     def test_get_currency_rates_list_missing_data(self, mock_populate):
         # Test get_currency_rates_list when data is missing and populate is called
-        # Add a date with no data
         finder = ExchangeFinder(source_currency='USD', start_date='2025-01-01', end_date='2025-01-02')
 
-        # Mock populate to add missing data
         def side_effect(code_source_currency, start_date, end_date):
             CurrencyExchangeRate.objects.create(
                 source_currency=self.usd,

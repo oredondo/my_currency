@@ -30,8 +30,8 @@ class CurrencyBeaconAdapter(ExchangeRateProvider, ABC):
         Fetch historical exchange rate for a specific date.
 
         Args:
-            source_currency: Base currency code (e.g., "USD")
-            exchanged_currency: Target currency code (e.g., "EUR")
+            source_currency: Base currency code ("USD")
+            exchanged_currency: Target currency code ("EUR")
             valuation_date: Date in YYYY-MM-DD format
 
         Returns:

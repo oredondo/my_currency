@@ -10,9 +10,9 @@ def converter(source_currency, exchanged_currency=None, value=None):
     Convert an amount from a source currency to one or more target currencies using exchange rates.
 
     Args:
-        source_currency (str): The currency code of the source currency (e.g., 'USD', 'EUR').
+        source_currency (str): The currency code of the source currency ('USD', 'EUR').
         exchanged_currency (str or list, optional): The currency code(s) of the target currency(ies)
-                                                   (e.g., 'EUR', 'GBP'). If None, converts to all
+                                                   ('EUR', 'GBP'). If None, converts to all
                                                    available currencies except the source.
                                                    Defaults to None.
         value (float, optional): The amount of money to convert from the source currency.

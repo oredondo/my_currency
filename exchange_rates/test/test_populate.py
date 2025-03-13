@@ -50,7 +50,6 @@ class PopulateFunctionTests(TestCase):
 
         populate(code_source_currency='USD', start_date=self.start_date)
 
-        # Verify the records were created
         self.assertEqual(CurrencyExchangeRate.objects.count(), 2)
         rate_eur_01 = CurrencyExchangeRate.objects.get(source_currency=self.usd, exchanged_currency=self.eur,
                                                        valuation_date='2025-01-01')
@@ -69,7 +68,7 @@ class PopulateFunctionTests(TestCase):
 
         mock_provider_instance = Mock()
         mock_provider_instance.get_timeseries_rates.return_value = {
-            '2025-01-01': {'EUR': 0.93, 'GBP': 0.80}  # EUR already exists
+            '2025-01-01': {'EUR': 0.93, 'GBP': 0.80}
         }
         mock_create_provider.return_value.create.return_value = mock_provider_instance
 

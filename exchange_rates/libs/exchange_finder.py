@@ -17,7 +17,7 @@ class ExchangeFinder(object):
         Initialize the ExchangeFinder with a source currency and date range.
 
         Args:
-            source_currency (str): The currency code of the source currency (e.g., 'USD', 'EUR').
+            source_currency (str): The currency code of the source currency ('USD', 'EUR').
             start_date (str): The start date for the exchange rate query in 'YYYY-MM-DD' format.
             end_date (str): The end date for the exchange rate query in 'YYYY-MM-DD' format.
 

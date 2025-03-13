@@ -16,7 +16,7 @@ class ExchangeRateListView(APIView):
 
     get_params:
 
-        source_currency (str): The currency code of the source currency (e.g., 'USD').
+        source_currency (str): The currency code of the source currency ('USD').
         date_from (str): The start date in 'YYYY-MM-DD' format.
         date_to (str): The end date in 'YYYY-MM-DD' format.
 
@@ -32,7 +32,7 @@ class ExchangeRateListView(APIView):
             request (Request): The HTTP request object containing query parameters.
 
         Query Parameters:
-            source_currency (str): The currency code of the source currency (e.g., 'USD').
+            source_currency (str): The currency code of the source currency ('USD').
             date_from (str): The start date in 'YYYY-MM-DD' format.
             date_to (str): The end date in 'YYYY-MM-DD' format.
 
@@ -64,8 +64,8 @@ class ConverterView(APIView):
     API view to convert an amount from a source currency to one or more target currencies.
 
     get_params:
-        source_currency (str): The currency code of the source currency (e.g., 'USD').
-        exchanged_currency (str): A comma-separated list of target currency codes (e.g., 'EUR,GBP').
+        source_currency (str): The currency code of the source currency ('USD').
+        exchanged_currency (str): A comma-separated list of target currency codes ('EUR,GBP').
         amount (str): The amount to convert, expected to be an integer.
     """
     authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -79,8 +79,8 @@ class ConverterView(APIView):
             request (Request): The HTTP request object containing query parameters.
 
         Query Parameters:
-            source_currency (str): The currency code of the source currency (e.g., 'USD').
-            exchanged_currency (str): A comma-separated list of target currency codes (e.g., 'EUR,GBP').
+            source_currency (str): The currency code of the source currency ('USD').
+            exchanged_currency (str): A comma-separated list of target currency codes ('EUR,GBP').
             amount (str): The amount to convert, expected to be an integer.
 
         Returns:

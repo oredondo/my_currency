@@ -7,6 +7,7 @@ from rest_framework.test import APITestCase, APIClient
 
 from currencies.models import Currency
 from providers.models import Credentials
+from exchange_rates.models import CurrencyExchangeRate
 
 
 class ExchangeRateListViewTests(APITestCase):
@@ -71,6 +72,8 @@ class ConverterViewTests(APITestCase):
         # Clean up after tests
         self.client.logout()
         User.objects.all().delete()
+        Currency.objects.all().delete()
+        CurrencyExchangeRate.objects.all().delete()
 
     def test_unauthenticated_access_denied(self):
         # Test that an unauthenticated user cannot access the view

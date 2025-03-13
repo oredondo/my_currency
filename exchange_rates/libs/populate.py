@@ -12,7 +12,7 @@ def populate(code_source_currency, start_date, end_date=None):
     Populate the database with currency exchange rates for a source currency over a date range.
 
     Args:
-        code_source_currency (str): The currency code of the source currency (e.g., 'USD', 'EUR').
+        code_source_currency (str): The currency code of the source currency ('USD', 'EUR').
         start_date (str): The start date for fetching exchange rates in 'YYYY-MM-DD' format.
         end_date (str, optional): The end date for fetching exchange rates in 'YYYY-MM-DD' format.
                                   Defaults to None, in which case today's date is used.
